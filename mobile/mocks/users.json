@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "username": "Rodrigo Panisi Pombo",
+      "email": "rodrigo.pombo@teste.com",
+      "createdAt": "2023-10-01T12:00:00Z",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "username": "Guilherme Pinheiro",
+      "email": "guilherme.pinheiro@teste.com",
+      "createdAt": "2023-10-02T12:00:00Z",
+      "password": "123456"
+    },
+    {
+      "id": 3,
+      "username": "Nilton P G V Miranda",
+      "email": "nilton.miranda@teste.com",
+      "createdAt": "2023-10-03T12:00:00Z",
+      "password": "123456"
+    },
+    {
+      "id": 4,
+      "username": "João Gabriel Vianna",
+      "email": "joao.vianna@teste.com",
+      "createdAt": "2023-10-04T12:00:00Z",
+      "password": "123456"
+    },
+    {
+      "id": 5,
+      "username": "Hete",
+      "email": "hete@teste.com",
+      "createdAt": "2023-10-05T12:00:00Z",
+      "password": "123456"
+    }
+  ]
+  
