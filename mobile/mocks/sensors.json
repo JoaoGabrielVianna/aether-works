@@ -1,0 +1,45 @@
+[
+    {
+      "id": "sensor_ir_1",
+      "name": "Sensor Infravermelho 1",
+      "type": "proximity",
+      "value": "Esticado",
+      "status": "OK"
+    },
+    {
+      "id": "sensor_ir_2",
+      "name": "Sensor Infravermelho 2",
+      "type": "proximity",
+      "value": "Retraído",
+      "status": "OK"
+    },
+    {
+      "id": "sensor_ultrassonico",
+      "name": "Sensor Ultrassônico",
+      "type": "presence",
+      "value": "Pão Detectado",
+      "status": "OK"
+    },
+    {
+      "id": "sensor_termopar",
+      "name": "Sensor Termopar (Temperatura)",
+      "type": "temperature",
+      "value": "65°C",
+      "status": "OK"
+    },
+    {
+      "id": "sensor_pressao",
+      "name": "Sensor de Pressão do Ar",
+      "type": "pressure",
+      "value": "3.5 bar",
+      "status": "Alerta"
+    },
+    {
+      "id": "sensor_acelerometro",
+      "name": "Sensor Acelerômetro",
+      "type": "vibration",
+      "value": "Normal",
+      "status": "OK"
+    }
+  ]
+  
