@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Platform, Alert } from "react-native";
 import { Sensor } from "@/models/sensor";
 import { COLORS } from "@/constants/colors";
 import { Pencil, Trash2 } from "lucide-react-native";
@@ -13,14 +13,27 @@ interface SensorCardProps {
 
 export function SensorCard({ sensor, onPress, onEdit, onDelete }: SensorCardProps) {
   const handleDelete = () => {
-    Alert.alert(
-      "Deletar Sensor",
-      `Tem certeza que deseja excluir "${sensor.name}"?`,
-      [
-        { text: "Cancelar", style: "cancel" },
-        { text: "Deletar", style: "destructive", onPress: () => onDelete(sensor.id) },
-      ]
-    );
+    if (Platform.OS === "web") {
+      const confirmed = window.confirm(
+        `Tem certeza que deseja excluir "${sensor.name}"?`
+      );
+      if (confirmed) {
+        onDelete(sensor.id);
+      }
+    } else {
+      Alert.alert(
+        "Deletar Sensor",
+        `Tem certeza que deseja excluir "${sensor.name}"?`,
+        [
+          { text: "Cancelar", style: "cancel" },
+          {
+            text: "Deletar",
+            style: "destructive",
+            onPress: () => onDelete(sensor.id),
+          },
+        ]
+      );
+    }
   };
 
   return (
@@ -28,13 +41,16 @@ export function SensorCard({ sensor, onPress, onEdit, onDelete }: SensorCardProp
       <View style={{ flex: 1 }}>
         <Text style={styles.name}>{sensor.name}</Text>
         <Text style={styles.value}>
-          {sensor.type} - {sensor.value}
+          {sensor.type} - {sensor.value} (ID: {sensor.id})
         </Text>
         <Text style={styles.status}>Status: {sensor.status}</Text>
       </View>
 
       <View style={styles.actions}>
-        <TouchableOpacity onPress={() => onEdit(sensor)} style={styles.iconButton}>
+        <TouchableOpacity
+          onPress={() => onEdit(sensor)}
+          style={styles.iconButton}
+        >
           <Pencil size={18} color={COLORS.info} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleDelete} style={styles.iconButton}>
