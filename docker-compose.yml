@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:15
+    container_name: aetherworks_database
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: aetherworks
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - aether_network
+
+volumes:
+  postgres_data:
+
+networks:
+  aether_network:
+    driver: bridge
