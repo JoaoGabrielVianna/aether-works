@@ -32,8 +32,10 @@ public class UserController {
 
     @PostMapping
     public UserModel create(@RequestBody UserModel user) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return service.save(user);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<UserModel> update(@PathVariable Long id, @RequestBody UserModel updated) {
