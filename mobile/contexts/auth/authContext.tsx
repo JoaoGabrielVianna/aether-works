@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { AuthContextType } from "./auth.types";
 import * as authService from "./auth.service";
@@ -7,23 +7,44 @@ import { User } from "@/models/user";
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(authService.mockedUsers[0] ?? null); // opcional inicializar
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(!!user);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const router = useRouter();
 
+  // 🔁 restaura a sessão ao abrir o app
+  useEffect(() => {
+    async function restoreSession() {
+      try {
+        const storedUser = await authService.loadStoredUser();
+        if (storedUser) {
+          setUser(storedUser);
+          setIsSignedIn(true);
+          router.replace("/(root)/home");
+        } else {
+          router.replace("/(auth)/signIn");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    restoreSession();
+  }, []);
+
+  // 🔐 login real (usa backend /auth/login)
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
     try {
       const loggedUser = await authService.login(email, password);
       setUser(loggedUser);
       setIsSignedIn(true);
-      router.replace("/home");
+      router.replace("/(root)/home");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // 🚪 logout
   const signOut = async () => {
     setIsLoading(true);
     try {
@@ -36,13 +57,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // 🆕 cadastro (usa backend /api/users)
   const signUp = async (email: string, password: string) => {
     setIsLoading(true);
     try {
       const newUser = await authService.register(email, password);
       setUser(newUser);
       setIsSignedIn(true);
-      router.replace("/home");
+      router.replace("/(root)/home");
     } finally {
       setIsLoading(false);
     }

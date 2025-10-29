@@ -25,19 +25,24 @@ export default function HomeScreen() {
   const [editingSensor, setEditingSensor] = useState<Sensor | null>(null);
 
   const fetchSensors = async () => {
-    try {
-      if (!refreshing) setLoading(true);
+  try {
+    if (!refreshing) setLoading(true);
+    console.log("🚀 Chamando fetchSensors...");
 
-      const res = await api.get<Sensor[]>("/readings");
-      setSensors(res.data);
-    } catch (err) {
-      console.error("Erro ao buscar sensores:", err);
-      Alert.alert("Erro", "Não foi possível carregar os sensores.");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
+    const res = await api.get<Sensor[]>("/readings");
+    console.log("✅ Resposta de sensores:", res.data);
+
+    setSensors(res.data);
+  } catch (err) {
+    console.error("❌ Erro no fetchSensors:", err);
+  } finally {
+    setLoading(false);
+    setRefreshing(false);
+  }
+};
+
+
+
 
   useEffect(() => {
     fetchSensors();

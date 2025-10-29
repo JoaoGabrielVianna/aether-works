@@ -1,8 +1,12 @@
 import { useAuth } from '@/contexts/auth';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 export function useSettingsHandlers() {
-  const {signOut} = useAuth();
+  const { signOut } = useAuth();
+  const router = useRouter();
+
   const handleProfile = () => {
     Alert.alert('Perfil', 'Redirecionando para configurações de perfil...');
   };
@@ -21,9 +25,19 @@ export function useSettingsHandlers() {
       {
         text: 'Sair',
         style: 'destructive',
-        onPress: () => {
-          // TODO: implementar logout real
-          signOut();
+        onPress: async () => {
+          try {
+            // 🧹 limpa dados salvos
+            await AsyncStorage.multiRemove(['token', 'user']);
+
+            // 🚪 encerra sessão no contexto
+            await signOut();
+
+            // 🔁 redireciona e impede voltar
+            router.replace('/(auth)/signIn');
+          } catch (err) {
+            console.error('Erro ao sair:', err);
+          }
         },
       },
     ]);
